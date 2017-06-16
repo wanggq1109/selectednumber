@@ -3,6 +3,7 @@ package com.cvssp.selectednumber.service.Impl;
 import com.cvssp.selectednumber.dao.BatchDao;
 import com.cvssp.selectednumber.dao.GeneratorDao;
 import com.cvssp.selectednumber.dao.NumberDao;
+import com.cvssp.selectednumber.domain.Batch;
 import com.cvssp.selectednumber.domain.CvsspNumber;
 import com.cvssp.selectednumber.domain.Generator;
 import com.cvssp.selectednumber.service.GeneratorService;
@@ -84,7 +85,10 @@ public class GeneratorServiceImpl implements GeneratorService {
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
-            Integer batchCount = batchDao.findBatchInfo(dnseg).get(0).getCount();
+            Batch batch  = batchDao.findBatchInfo(dnseg).get(0);
+            Integer batchCount = batch.getCount();
+            Long BatchNumber = batch.getId();
+
             Generator generator = generatorDao.FindGeneratorInfo(dnseg);
             if (null == generator) {
                 generator = new Generator();
@@ -95,6 +99,7 @@ public class GeneratorServiceImpl implements GeneratorService {
             generator.setDnseg(dnseg);
             generator.setMaxValue(batchCount);
             generator.setCreatedTime(new Date());
+            generator.setBatchNumber(BatchNumber);
             generatorDao.save(generator);
             transactionManager.commit(status);
             return true;

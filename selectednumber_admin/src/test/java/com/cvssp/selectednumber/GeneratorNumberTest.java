@@ -1,9 +1,12 @@
 package com.cvssp.selectednumber;
 
 
+import com.cvssp.selectednumber.dao.BatchDao;
 import com.cvssp.selectednumber.dao.GeneratorDao;
+import com.cvssp.selectednumber.domain.Batch;
 import com.cvssp.selectednumber.domain.Generator;
 import com.cvssp.selectednumber.service.GeneratorService;
+import com.cvssp.selectednumber.service.NumberService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,12 @@ public class GeneratorNumberTest {
 
     @Autowired
     GeneratorDao generatorDao;
+
+    @Autowired
+    NumberService numberService;
+
+    @Autowired
+    BatchDao batchDao;
 
 
     @Test
@@ -64,20 +73,13 @@ public class GeneratorNumberTest {
 
         String dnseg = "183";
 
-        // boolean exist =   generatorService.isExistNumber(dnseg);
-
         boolean sysnsuccess = generatorService.syschronBatchCount(dnseg);
 
         if (sysnsuccess) {
             Generator generator = generatorDao.FindGeneratorInfo(dnseg);
-            List<String> list = generatorService.batchGeneratorNumber("183", generator.getMaxValue());
-
-            for (String str : list) {
-
-                System.out.println("**************" + str);
-            }
-
-
+            List<String> numberlist = generatorService.batchGeneratorNumber("183", generator.getMaxValue());
+            Batch batch = batchDao.findOne(generator.getBatchNumber());
+            numberService.BatchAddNumber(numberlist,batch);
         }
 
 

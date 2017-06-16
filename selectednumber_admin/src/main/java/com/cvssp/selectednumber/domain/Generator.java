@@ -30,6 +30,11 @@ public class Generator extends DomainImpl {
      */
     private Integer currentCount = 0;
 
+    /**
+     * 当前生成最大值的批次号
+     */
+    private Long batchNumber;
+
 
     public String getDnseg() {
         return dnseg;
@@ -53,5 +58,13 @@ public class Generator extends DomainImpl {
 
     public void setCurrentCount(Integer currentCount) {
         this.currentCount = currentCount;
+    }
+
+    public Long getBatchNumber() {
+        return batchNumber;
+    }
+
+    public void setBatchNumber(Long batchNumber) {
+        this.batchNumber = batchNumber;
     }
 }
