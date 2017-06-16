@@ -1,7 +1,8 @@
 package com.cvssp.selectednumber.domain;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by wgq on 2017/6/12.
@@ -36,10 +37,11 @@ public class CvsspNumber extends DomainImpl {
     private String status;
 
 
-    @OneToMany(mappedBy = "cvsspNumber")
-    private List<com.cvssp.selectednumber.domain.CategoryCvsspNumber> categorys;
+    @OneToMany(mappedBy = "cvsspNumber", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private Set<CategoryCvsspNumber> categorys = new HashSet<CategoryCvsspNumber>();
 
     @ManyToOne
+    @JoinColumn(name = "batch")
     private Batch batch;
 
 
@@ -119,11 +121,11 @@ public class CvsspNumber extends DomainImpl {
         this.batch = batch;
     }
 
-    public List<com.cvssp.selectednumber.domain.CategoryCvsspNumber> getCategorys() {
+    public Set<CategoryCvsspNumber> getCategorys() {
         return categorys;
     }
 
-    public void setCategorys(List<com.cvssp.selectednumber.domain.CategoryCvsspNumber> categorys) {
+    public void setCategorys(Set<CategoryCvsspNumber> categorys) {
         this.categorys = categorys;
     }
 }

@@ -1,6 +1,7 @@
 package com.cvssp.selectednumber.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -14,9 +15,11 @@ import javax.persistence.Table;
 public class CategoryCvsspNumber extends  DomainImpl{
 
     @ManyToOne
+    @JoinColumn(name = "category")
     private Category category;
 
     @ManyToOne
+    @JoinColumn(name = "cvsspNumber")
     private CvsspNumber cvsspNumber;
 
 

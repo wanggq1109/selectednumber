@@ -1,9 +1,8 @@
 package com.cvssp.selectednumber.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by wgq on 2017/6/12.
@@ -23,8 +22,8 @@ public class Category extends DomainImpl {
      */
     private String code;
 
-    @OneToMany(mappedBy = "category")
-    private List<CategoryCvsspNumber>  numbers;
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private Set<CategoryCvsspNumber> numbers = new HashSet<CategoryCvsspNumber>();
 
 
     public String getName() {
@@ -43,11 +42,11 @@ public class Category extends DomainImpl {
         this.code = code;
     }
 
-    public List<CategoryCvsspNumber> getNumbers() {
+    public Set<CategoryCvsspNumber> getNumbers() {
         return numbers;
     }
 
-    public void setNumbers(List<CategoryCvsspNumber> numbers) {
+    public void setNumbers(Set<CategoryCvsspNumber> numbers) {
         this.numbers = numbers;
     }
 }
