@@ -31,7 +31,6 @@ public class GeneratorServiceImpl implements GeneratorService {
     @Autowired
     private PlatformTransactionManager transactionManager;
 
-
     @Autowired
     private GeneratorDao generatorDao;
 
@@ -52,17 +51,13 @@ public class GeneratorServiceImpl implements GeneratorService {
         String strNumber = "";
 
         Generator generator = generatorDao.FindGeneratorInfo(dnseg);
-
         Integer index = generator.getCurrentCount();
-
         List<String> NumberList = new ArrayList<String>();
 
         for (int i = index + 1; i <= maxValue; i++) {
-
             String baseCode = generatorBaseCode(String.valueOf(i));
             strNumber = dnseg + baseCode + i;
             NumberList.add(strNumber);
-
         }
 
         generator.setCurrentCount(maxValue);
@@ -82,24 +77,25 @@ public class GeneratorServiceImpl implements GeneratorService {
 
         if (null == dnseg || "".equals(dnseg)) return false;
 
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-
         try {
-            Batch batch  = batchDao.findBatchInfo(dnseg).get(0);
+
+            TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+            Batch batch = batchDao.findBatchInfo(dnseg).get(0);
             Integer batchCount = batch.getCount();
             Long BatchNumber = batch.getId();
-
             Generator generator = generatorDao.FindGeneratorInfo(dnseg);
             if (null == generator) {
                 generator = new Generator();
                 generator.setMaxValue(0);
             }
             Integer maxValue = generator.getMaxValue();
-            batchCount = batchCount+maxValue;
+            batchCount = batchCount + maxValue;
             generator.setDnseg(dnseg);
             generator.setMaxValue(batchCount);
             generator.setCreatedTime(new Date());
             generator.setBatchNumber(BatchNumber);
+
             generatorDao.save(generator);
             transactionManager.commit(status);
             return true;
@@ -122,7 +118,6 @@ public class GeneratorServiceImpl implements GeneratorService {
 
         int numberlen = index.length();
         int baselen = 6 - numberlen;
-
         char[] ch = new char[baselen];
         for (int i = 0; i < ch.length; i++) {
             ch[i] = '0';
@@ -139,18 +134,12 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @return
      */
     public boolean isExistNumber(String dnseg) {
-
         try {
             List<CvsspNumber> numberList = numberDao.findNumberStateless(dnseg);
-
             if (numberList.size() > 0) {
-
                 return true;
-
             } else {
-
                 return false;
-
             }
         } catch (Exception e) {
             e.printStackTrace();

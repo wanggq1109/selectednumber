@@ -32,13 +32,9 @@ public class BatchServiceImpl implements BatchService {
         Batch batch = new Batch();
         batch.setDnseg(dnseg);
         batch.setStatus("onReady");
-
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnorePaths("saleCount","lockCount","abandonCount","count");
-
-
         Example<Batch> example = Example.of(batch,matcher);
-
         Page<Batch> batches = batchDao.findAll(example, pageable);
 
         return batches;
