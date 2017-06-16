@@ -33,7 +33,6 @@ public class NumberServiceImpl implements NumberService {
         List<CvsspNumber> cvsspNumbersList = new ArrayList<CvsspNumber>();
 
         for (String numberInfo : numberlist) {
-
             CvsspNumber number = new CvsspNumber();
             number.setBatch(batch);
             number.setDnseg(batch.getDnseg());
