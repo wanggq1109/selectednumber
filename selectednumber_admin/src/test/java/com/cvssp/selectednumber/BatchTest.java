@@ -48,7 +48,7 @@ public class BatchTest {
     public void saveBatch() {
 
         Batch batch = new Batch();
-        batch.setCount(190);
+        batch.setCount(90);
         batch.setDnseg("183");
         batch.setCreatedTime(new Date());
 

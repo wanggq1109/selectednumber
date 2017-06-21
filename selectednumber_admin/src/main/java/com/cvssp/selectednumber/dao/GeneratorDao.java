@@ -17,4 +17,7 @@ public interface GeneratorDao extends JpaRepository<Generator, Long> {
     Generator FindGeneratorInfo(String dnseg);
 
 
+
+
+
 }

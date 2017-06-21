@@ -25,6 +25,10 @@ public class Category extends DomainImpl {
     @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private Set<CategoryCvsspNumber> numbers = new HashSet<CategoryCvsspNumber>();
 
+    @ManyToOne
+    @JoinColumn(name = "groupInfo")
+    private Group groupInfo;
+
 
     public String getName() {
         return name;
@@ -48,5 +52,13 @@ public class Category extends DomainImpl {
 
     public void setNumbers(Set<CategoryCvsspNumber> numbers) {
         this.numbers = numbers;
+    }
+
+    public Group getGroupInfo() {
+        return groupInfo;
+    }
+
+    public void setGroupInfo(Group groupInfo) {
+        this.groupInfo = groupInfo;
     }
 }

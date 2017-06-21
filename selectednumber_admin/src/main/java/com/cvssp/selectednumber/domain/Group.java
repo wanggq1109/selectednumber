@@ -1,11 +1,9 @@
 package com.cvssp.selectednumber.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by wgq on 2017/6/12.
@@ -29,8 +27,8 @@ public class Group extends DomainImpl {
     private  int price;
 
 
-    @OneToMany
-    private List<Category>  categories;
+    @OneToMany(mappedBy = "groupInfo", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private Set<Category> categories = new HashSet<Category>();
 
     /**
      * 组value==g01
@@ -100,5 +98,13 @@ public class Group extends DomainImpl {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }

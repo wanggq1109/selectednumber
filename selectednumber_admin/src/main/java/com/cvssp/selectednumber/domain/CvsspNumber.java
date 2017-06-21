@@ -17,7 +17,7 @@ public class CvsspNumber extends DomainImpl {
      * 护照号
      */
     @Column(length = 20)
-    private String number = "0";
+    private String number;
 
     /**
      * 保留号
@@ -26,7 +26,7 @@ public class CvsspNumber extends DomainImpl {
     private Integer remain = 0;
 
     /**
-     * ready    已准备好
+     * onReady    已准备好
      * sold     售出
      * lock     冻结
      * unfreeze 解冻
