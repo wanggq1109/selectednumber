@@ -1,8 +1,8 @@
 package com.cvssp.selectednumber;
 
-import com.cvssp.selectednumber.common.Constants;
 import com.cvssp.selectednumber.dao.NumberDao;
 import com.cvssp.selectednumber.domain.CvsspNumber;
+import com.cvssp.selectednumber.service.CvsspNumberCategoryService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +21,24 @@ public class NumberTest {
     @Autowired
     private NumberDao numberDao;
 
+    @Autowired
+    private CvsspNumberCategoryService cvsspNumberCategoryService;
+
+
     @Test
-    public void NumberQueryByRegex(){
+    public void createCategory2Number() {
 
-        List<CvsspNumber> cvsspNumberList = numberDao.getNumbersByTypeRegex(Constants.REGEX_AABB);
+        List<CvsspNumber> numberList = numberDao.getNumbersList();
+        /*for(CvsspNumber cvsspNumber :numberList){
 
-        for(CvsspNumber cvsspNumber :cvsspNumberList){
+            System.out.println("------"+cvsspNumber.getNumber());
 
-            System.out.println("**********" + cvsspNumber.getNumber());
-        }
+
+
+        }*/
+
+        cvsspNumberCategoryService.saveNumberMappingCategory(numberList);
+
 
     }
 

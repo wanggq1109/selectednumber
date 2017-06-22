@@ -28,6 +28,7 @@ public class CvsspNumber extends DomainImpl {
     /**
      * onReady    已准备好
      * sold     售出
+     * finish   完成
      * lock     冻结
      * unfreeze 解冻
      * abandon  废弃

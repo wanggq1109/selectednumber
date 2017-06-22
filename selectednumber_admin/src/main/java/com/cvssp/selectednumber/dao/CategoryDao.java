@@ -11,7 +11,7 @@ public interface CategoryDao extends JpaRepository<Category,Long> {
 
 
 
-    @Query("FROM Category c WHERE c.name=?1 ")
-    Category findCategoryByname(String name);
+    @Query("FROM Category c WHERE c.code=?1 ")
+    Category findCategoryByname(String code);
 
 }
