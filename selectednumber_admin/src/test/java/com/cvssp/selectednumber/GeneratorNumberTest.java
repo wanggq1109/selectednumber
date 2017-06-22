@@ -1,11 +1,9 @@
 package com.cvssp.selectednumber;
 
 
-import com.cvssp.selectednumber.common.Constants;
 import com.cvssp.selectednumber.dao.BatchDao;
 import com.cvssp.selectednumber.dao.GeneratorDao;
 import com.cvssp.selectednumber.domain.Batch;
-import com.cvssp.selectednumber.domain.CvsspNumber;
 import com.cvssp.selectednumber.domain.Generator;
 import com.cvssp.selectednumber.service.GeneratorService;
 import com.cvssp.selectednumber.service.NumberService;
@@ -87,22 +85,7 @@ public class GeneratorNumberTest {
 
     }
 
-    @Test
-    public  void QueryNumbersByType(){
 
-        String type = Constants.REGEX_AABB;
-
-        List<CvsspNumber> numbersList = numberService.findCvsspNumbersByCategory(type);
-
-        for(CvsspNumber cvsspNumber :numbersList){
-
-            System.out.println("号码************"+cvsspNumber.getNumber());
-
-
-
-        }
-
-    }
 }
 
 

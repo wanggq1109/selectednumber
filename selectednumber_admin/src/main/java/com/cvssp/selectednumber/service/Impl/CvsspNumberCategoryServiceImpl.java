@@ -43,19 +43,19 @@ public class CvsspNumberCategoryServiceImpl implements CvsspNumberCategoryServic
 
         for (CvsspNumber cvsspNumber : numberList) {
 
-            CategoryCvsspNumber categoryCvsspNumber = new CategoryCvsspNumber();
-            categoryCvsspNumber.setCvsspNumber(cvsspNumber);
-
             String numberType = numberService.findAllNumberType(cvsspNumber);
 
-            Category category = categoryDao.findCategoryByname(numberType);
-            categoryCvsspNumber.setCategory(category);
-            categoryCvsspNumber.setCreatedTime(new Date());
+            if (!numberType.equals("normal")){
+                CategoryCvsspNumber categoryCvsspNumber = new CategoryCvsspNumber();
+                categoryCvsspNumber.setCvsspNumber(cvsspNumber);
+                cvsspNumber.setStatus("finish");
 
-            numberCategoryDao.save(categoryCvsspNumber);
-
-            cvsspNumber.setStatus("finish");
-            numberDao.save(cvsspNumber);
+                Category category = categoryDao.findCategoryByname(numberType);
+                categoryCvsspNumber.setCategory(category);
+                categoryCvsspNumber.setCreatedTime(new Date());
+                numberCategoryDao.save(categoryCvsspNumber);
+                numberDao.save(cvsspNumber);
+            }
 
 
         }
