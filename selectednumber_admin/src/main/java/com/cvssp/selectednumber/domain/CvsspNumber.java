@@ -46,6 +46,11 @@ public class CvsspNumber extends DomainImpl {
     private Batch batch;
 
 
+    @ManyToOne
+    @JoinColumn(name = "orderInfo")
+    private Order orderInfo;
+
+
     /**
      * 号段
      */
@@ -128,5 +133,13 @@ public class CvsspNumber extends DomainImpl {
 
     public void setCategorys(Set<CategoryCvsspNumber> categorys) {
         this.categorys = categorys;
+    }
+
+    public Order getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(Order orderInfo) {
+        this.orderInfo = orderInfo;
     }
 }

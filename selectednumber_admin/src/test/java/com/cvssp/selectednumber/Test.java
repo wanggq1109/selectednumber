@@ -8,7 +8,11 @@ public class Test {
 
     public static void main(String[] args) {
 
-        String str = "183001214";
+
+
+
+
+       /* String str = "183001214";
         String number = str.substring(5);
         String type = getNumberType(number);
 
@@ -21,7 +25,7 @@ public class Test {
 
             System.out.println("--------------------" + type);
 
-        }
+        }*/
 
     }
 
