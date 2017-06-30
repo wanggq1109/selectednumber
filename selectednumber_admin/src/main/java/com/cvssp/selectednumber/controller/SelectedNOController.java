@@ -6,14 +6,12 @@ import com.cvssp.selectednumber.dao.NumberCategoryDao;
 import com.cvssp.selectednumber.domain.CategoryCvsspNumber;
 import com.cvssp.selectednumber.dto.CategoryDTO;
 import com.cvssp.selectednumber.dto.NumberInfo;
+import com.cvssp.selectednumber.service.NumberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ import java.util.List;
  * Created by wgq on 2017/6/26.
  */
 @RestController
-@RequestMapping("/selectedNO")
+@RequestMapping("/selectedNum")
 public class SelectedNOController {
 
     @Autowired
@@ -34,12 +32,15 @@ public class SelectedNOController {
     @Autowired
     private CategoryDao categoryDao;
 
+    @Autowired
+    NumberService numberService;
+
 
     /**
      * 初始化类型和号段用于H5展示
      * @return
      */
-    @RequestMapping(value = "/index.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     public List<CategoryDTO> InitCategoryQueryInfo() {
 
         List<CategoryDTO> results = new ArrayList<CategoryDTO>();
@@ -71,6 +72,22 @@ public class SelectedNOController {
         return  "success";
     }
 
+    /**
+     * 随机选取号码
+     * @return
+     */
+    @GetMapping("/radomNum")
+    public  NumberInfo selectedRadom(){
+
+        NumberInfo numberInfo = new NumberInfo();
+        String number = numberService.selected2RadomNO();
+        numberInfo.setPrice("1000");
+        numberInfo.setType("normal");
+        numberInfo.setNumber(number);
+        return numberInfo;
+
+    }
+
 
     /**
      * 查询中意的号码
@@ -80,8 +97,8 @@ public class SelectedNOController {
      * @param page
      * @return
      */
-    @GetMapping("/query.do")
-    public List<NumberInfo> query(String dnseg, String numberType, @PageableDefault(size = 10) Pageable page) {
+    @GetMapping("/{dnseg}/{numberType}")
+    public List<NumberInfo> query(@PathVariable String dnseg, @PathVariable String numberType, @PageableDefault(size = 10) Pageable page) {
 
         List<NumberInfo> numberInfos = new ArrayList<NumberInfo>();
         Page pagelist = numberCategoryDao.findNumberAndCategoryInfo(dnseg, numberType, page);
