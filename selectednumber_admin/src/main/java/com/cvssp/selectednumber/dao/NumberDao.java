@@ -29,4 +29,8 @@ public interface NumberDao extends JpaRepository<CvsspNumber,Long> {
      */
     @Query("FROM CvsspNumber n WHERE n.status = 'onReady'")
     List<CvsspNumber> getNumbersList();
+
+
+    @Query(value = "SELECT  MIN(id),MAX(id) FROM  t_cvssp_number N WHERE N.status = 'onReady' ",nativeQuery = true)
+    Object getMaxIdAndMinId();
 }

@@ -3,8 +3,8 @@ package com.cvssp.selectednumber;
 import com.cvssp.selectednumber.dao.NumberCategoryDao;
 import com.cvssp.selectednumber.dao.NumberDao;
 import com.cvssp.selectednumber.domain.CategoryCvsspNumber;
-import com.cvssp.selectednumber.domain.CvsspNumber;
 import com.cvssp.selectednumber.service.CvsspNumberCategoryService;
+import com.cvssp.selectednumber.service.NumberService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +27,31 @@ public class NumberTest {
     private NumberDao numberDao;
 
     @Autowired
+    NumberService numberService;
+
+    @Autowired
     private NumberCategoryDao numberCategoryDao;
 
     @Autowired
     private CvsspNumberCategoryService cvsspNumberCategoryService;
 
 
-    @Test
+    /*@Test
     public void createCategory2Number() {
 
         List<CvsspNumber> numberList = numberDao.getNumbersList();
 
         cvsspNumberCategoryService.saveNumberMappingCategory(numberList);
+
+
+    }*/
+
+    @Test
+    public void maxAndmin(){
+
+       String number = numberService.selected2RadomNO();
+        System.out.println("随机选取的号码为--------"+number);
+
 
 
     }
@@ -47,29 +60,19 @@ public class NumberTest {
     public void query() {
 
         Page pagelist = numberCategoryDao.findNumberAndCategoryInfo("183","AABB", new PageRequest(0, 5));
-
         System.out.println(pagelist.getTotalPages() + "-------" + pagelist.getContent().size());
 
         List list = pagelist.getContent();
-
         for (int i = 0; i < list.size(); i++) {
-
             Object[] objArray = (Object[]) list.get(i);
-
             for (Object obj : objArray) {
-
                 if (obj instanceof CategoryCvsspNumber) {
-
                     CategoryCvsspNumber categoryCvsspNumber = (CategoryCvsspNumber) obj;
-
                     System.out.println("---------" + categoryCvsspNumber.getCvsspNumber().getNumber());
                     System.out.println("---------" + categoryCvsspNumber.getCategory().getName());
                     System.out.println("----------" + categoryCvsspNumber.getCategory().getGroupInfo().getPrice());
-
-
                 }
             }
-
 
         }
 

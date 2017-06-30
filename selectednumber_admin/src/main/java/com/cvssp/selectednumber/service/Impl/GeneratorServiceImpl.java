@@ -49,7 +49,6 @@ public class GeneratorServiceImpl implements GeneratorService {
     public List<String> batchGeneratorNumber(String dnseg, Integer maxValue) {
 
         String strNumber = "";
-
         Generator generator = generatorDao.FindGeneratorInfo(dnseg);
         Integer index = generator.getCurrentCount();
         List<String> NumberList = new ArrayList<String>();

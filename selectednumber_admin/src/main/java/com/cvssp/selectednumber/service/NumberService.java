@@ -53,4 +53,11 @@ public interface NumberService {
      * @return
      */
     public  String findAllNumberType(CvsspNumber cvsspNumber);
+
+
+    /**
+     * 随机选取号码
+     * @return
+     */
+    public String selected2RadomNO();
 }

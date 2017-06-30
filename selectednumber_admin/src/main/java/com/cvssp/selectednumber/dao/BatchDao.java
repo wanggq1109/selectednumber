@@ -15,6 +15,10 @@ public interface BatchDao extends JpaRepository<Batch,Long> {
     @Query("FROM Batch b WHERE b.dnseg=?1 and b.status='onReady' order by b.createdTime desc")
     List<Batch> findBatchInfo(String dnseg);
 
+    @Query(value = "SELECT DISTINCT (b.dnseg) FROM t_batch b",nativeQuery = true)
+    List<String> findAllDnseg();
+
+
 
 
 
