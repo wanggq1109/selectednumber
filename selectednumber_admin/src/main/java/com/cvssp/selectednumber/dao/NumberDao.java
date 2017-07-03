@@ -14,6 +14,11 @@ public interface NumberDao extends JpaRepository<CvsspNumber,Long> {
     @Query("FROM CvsspNumber n WHERE n.dnseg=?1")
     List<CvsspNumber> findNumberStateless(String dnseg);
 
+    @Query("FROM CvsspNumber n WHERE n.number=?1")
+    CvsspNumber getNumberObjetByName(String name);
+
+
+
     /**
      * 通过正则查询当前符合类型的号码
      * @param regex
@@ -33,4 +38,6 @@ public interface NumberDao extends JpaRepository<CvsspNumber,Long> {
 
     @Query(value = "SELECT  MIN(id),MAX(id) FROM  t_cvssp_number N WHERE N.status = 'onReady' ",nativeQuery = true)
     Object getMaxIdAndMinId();
+
+
 }

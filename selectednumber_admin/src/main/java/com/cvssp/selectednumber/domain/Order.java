@@ -30,6 +30,12 @@ public class Order extends DomainImpl {
     private  Integer totalSum;
 
     /**
+     * unpaid 待支付
+     * paid   已支付
+     */
+    private  String status;
+
+    /**
      * 用户下单时间
      */
     private Date addTime;
@@ -173,5 +179,11 @@ public class Order extends DomainImpl {
         this.paymentthod = paymentthod;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

@@ -1,12 +1,19 @@
 package com.cvssp.selectednumber.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.cvssp.selectednumber.common.AmountUtils;
+import com.cvssp.selectednumber.common.OrderNumUtils;
 import com.cvssp.selectednumber.dao.BatchDao;
 import com.cvssp.selectednumber.dao.CategoryDao;
 import com.cvssp.selectednumber.dao.NumberCategoryDao;
 import com.cvssp.selectednumber.domain.CategoryCvsspNumber;
 import com.cvssp.selectednumber.dto.CategoryDTO;
+import com.cvssp.selectednumber.dto.MessageDTO;
 import com.cvssp.selectednumber.dto.NumberInfo;
+import com.cvssp.selectednumber.dto.OrderDTO;
 import com.cvssp.selectednumber.service.NumberService;
+import com.cvssp.selectednumber.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,9 +42,13 @@ public class SelectedNOController {
     @Autowired
     NumberService numberService;
 
+    @Autowired
+    OrderService orderService;
+
 
     /**
      * 初始化类型和号段用于H5展示
+     *
      * @return
      */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -58,26 +69,58 @@ public class SelectedNOController {
 
     /**
      * 提交订单
-     * @param userId
-     * @param mobile
-     * @param number
+     *
+     * @param requestBody
      * @return
      */
-    @RequestMapping(value = "/toOrder",method = RequestMethod.POST)
-    public String toOrder(String userId,String mobile,String number){
+    @RequestMapping(value = "/toOrder", method = RequestMethod.POST)
+    public MessageDTO toOrder(@RequestBody String requestBody) {
+
+        MessageDTO messageDTO = new MessageDTO();
+
+        try {
+            JSONObject json = (JSONObject) JSON.parse(requestBody);
+            String mobile = (String) json.get("mobile");
+            String userId = (String) json.get("userId");
+            String number = (String) json.get("number");
+            Integer totalSum = (Integer) json.get("totalSum");
+            String totalAmount = (String) json.get("totalAmount");
+            String prePay = (String) json.get("prePay");
 
 
+            String tradeNo = OrderNumUtils.makeOrderNum();
+            OrderDTO dto = new OrderDTO();
+            dto.setMobile(mobile);
+            dto.setUserId(userId);
+            dto.setNumber(number);
+            dto.setTotalSum(totalSum);
+            dto.setTradeNo(tradeNo);
+            dto.setPrePay(prePay);
+            dto.setTotalAmount(Integer.valueOf(AmountUtils.changeY2F(totalAmount)));
+
+            orderService.toOrderSuccess(dto);
+            messageDTO.setCode("0");
+            messageDTO.setMsg("SUCCESS");
+            messageDTO.setContent("tradeNo:" + tradeNo);
+        } catch (NumberFormatException e) {
+
+            messageDTO.setCode("1");
+            messageDTO.setMsg("false");
+            e.printStackTrace();
+
+        }
 
 
-        return  "success";
+        return messageDTO;
     }
 
     /**
      * 随机选取号码
+     *
      * @return
      */
     @GetMapping("/radomNum")
-    public  NumberInfo selectedRadom(){
+    public NumberInfo selectedRadom() {
 
         NumberInfo numberInfo = new NumberInfo();
         String number = numberService.selected2RadomNO();
@@ -90,7 +133,7 @@ public class SelectedNOController {
 
 
     /**
-     * 查询中意的号码
+     * 特定策略选取中意号码
      *
      * @param dnseg
      * @param numberType
@@ -118,6 +161,20 @@ public class SelectedNOController {
 
         }
         return numberInfos;
+    }
+
+
+    /**
+     * 显示当前用户的订单
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/showOrders/{userId}",method = RequestMethod.GET)
+    public  List<OrderDTO> showOrderInfoList(@PathVariable String userId,@PageableDefault(size = 10) Pageable page){
+
+        List<OrderDTO> orderDTOList =  orderService.getOrderInfoByUserId(userId, page);
+
+        return orderDTOList;
     }
 
 }

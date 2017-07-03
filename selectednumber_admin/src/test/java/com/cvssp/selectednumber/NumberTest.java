@@ -3,6 +3,7 @@ package com.cvssp.selectednumber;
 import com.cvssp.selectednumber.dao.NumberCategoryDao;
 import com.cvssp.selectednumber.dao.NumberDao;
 import com.cvssp.selectednumber.domain.CategoryCvsspNumber;
+import com.cvssp.selectednumber.domain.CvsspNumber;
 import com.cvssp.selectednumber.service.CvsspNumberCategoryService;
 import com.cvssp.selectednumber.service.NumberService;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class NumberTest {
     private CvsspNumberCategoryService cvsspNumberCategoryService;
 
 
-    /*@Test
+    @Test
     public void createCategory2Number() {
 
         List<CvsspNumber> numberList = numberDao.getNumbersList();
@@ -44,7 +45,7 @@ public class NumberTest {
         cvsspNumberCategoryService.saveNumberMappingCategory(numberList);
 
 
-    }*/
+    }
 
     @Test
     public void maxAndmin(){
