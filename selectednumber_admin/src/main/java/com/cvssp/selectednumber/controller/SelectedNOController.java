@@ -83,7 +83,7 @@ public class SelectedNOController {
             String mobile = (String) json.get("mobile");
             String userId = (String) json.get("userId");
             String number = (String) json.get("number");
-            Integer totalSum = (Integer) json.get("totalSum");
+            String totalSum = (String) json.get("totalSum");
             String totalAmount = (String) json.get("totalAmount");
             String prePay = (String) json.get("prePay");
 
@@ -93,7 +93,7 @@ public class SelectedNOController {
             dto.setMobile(mobile);
             dto.setUserId(userId);
             dto.setNumber(number);
-            dto.setTotalSum(totalSum);
+            dto.setTotalSum(Integer.valueOf(totalSum));
             dto.setTradeNo(tradeNo);
             dto.setPrePay(prePay);
             dto.setTotalAmount(Integer.valueOf(AmountUtils.changeY2F(totalAmount)));

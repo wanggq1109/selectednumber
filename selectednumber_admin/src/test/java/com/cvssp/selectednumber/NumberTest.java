@@ -1,11 +1,19 @@
 package com.cvssp.selectednumber;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cvssp.selectednumber.dao.NumberCategoryDao;
 import com.cvssp.selectednumber.dao.NumberDao;
 import com.cvssp.selectednumber.domain.CategoryCvsspNumber;
 import com.cvssp.selectednumber.domain.CvsspNumber;
 import com.cvssp.selectednumber.service.CvsspNumberCategoryService;
 import com.cvssp.selectednumber.service.NumberService;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +56,10 @@ public class NumberTest {
     }
 
     @Test
-    public void maxAndmin(){
+    public void maxAndmin() {
 
-       String number = numberService.selected2RadomNO();
-        System.out.println("随机选取的号码为--------"+number);
-
+        String number = numberService.selected2RadomNO();
+        System.out.println("随机选取的号码为--------" + number);
 
 
     }
@@ -60,7 +67,7 @@ public class NumberTest {
     @Test
     public void query() {
 
-        Page pagelist = numberCategoryDao.findNumberAndCategoryInfo("183","AABB", new PageRequest(0, 5));
+        Page pagelist = numberCategoryDao.findNumberAndCategoryInfo("183", "AABB", new PageRequest(0, 5));
         System.out.println(pagelist.getTotalPages() + "-------" + pagelist.getContent().size());
 
         List list = pagelist.getContent();
@@ -78,4 +85,56 @@ public class NumberTest {
         }
 
     }
+
+
+
+    @Test
+    public void toPostOrderInfo() {
+
+        JSONObject params = new JSONObject();
+        params.put("mobile", "18621387368");
+        params.put("userId", "123");
+        params.put("number", "183000033");
+        params.put("totalSum", "1");
+        params.put("totalAmount", "100");
+        String pathUrl = "http://localhost:8080/admin/selectedNum/toOrder";
+        String result = doPost(pathUrl, params).toJSONString();
+        System.out.println(result);
+
+
+    }
+
+
+
+
+
+
+    /**
+     * post请求
+     * @param url
+     * @param json
+     * @return
+     */
+
+    public static JSONObject doPost(String url,JSONObject json){
+        DefaultHttpClient client = new DefaultHttpClient();
+        HttpPost post = new HttpPost(url);
+        JSONObject response = null;
+        try {
+            StringEntity s = new StringEntity(json.toString());
+            s.setContentEncoding("UTF-8");
+            s.setContentType("application/json");//发送json数据需要设置contentType
+            post.setEntity(s);
+            HttpResponse res = client.execute(post);
+            if(res.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+                HttpEntity entity = res.getEntity();
+                String result = EntityUtils.toString(res.getEntity());// 返回json格式：
+                response = JSONObject.parseObject(result);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return response;
+    }
+
 }
