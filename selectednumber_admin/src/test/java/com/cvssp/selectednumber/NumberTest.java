@@ -93,7 +93,7 @@ public class NumberTest {
 
         JSONObject params = new JSONObject();
         params.put("mobile", "18621387368");
-        params.put("userId", "123");
+        params.put("userId", "156");
         params.put("number", "183000033");
         params.put("totalSum", "1");
         params.put("totalAmount", "100");

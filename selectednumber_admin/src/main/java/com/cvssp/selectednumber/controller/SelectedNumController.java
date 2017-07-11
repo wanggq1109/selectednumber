@@ -14,6 +14,8 @@ import com.cvssp.selectednumber.dto.NumberInfo;
 import com.cvssp.selectednumber.dto.OrderDTO;
 import com.cvssp.selectednumber.service.NumberService;
 import com.cvssp.selectednumber.service.OrderService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/selectedNum")
-public class SelectedNOController {
+public class SelectedNumController {
 
     @Autowired
     private NumberCategoryDao numberCategoryDao;
@@ -52,6 +54,7 @@ public class SelectedNOController {
      * @return
      */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @ApiOperation("初始化页面号段和号码类型")
     public List<CategoryDTO> InitCategoryQueryInfo() {
 
         List<CategoryDTO> results = new ArrayList<CategoryDTO>();
@@ -74,7 +77,8 @@ public class SelectedNOController {
      * @return
      */
     @RequestMapping(value = "/toOrder", method = RequestMethod.POST)
-    public MessageDTO toOrder(@RequestBody String requestBody) {
+    @ApiOperation("提交购买订单信息")
+    public MessageDTO toOrder(@ApiParam("json对象")@RequestBody String requestBody) {
 
         MessageDTO messageDTO = new MessageDTO();
 
@@ -120,6 +124,7 @@ public class SelectedNOController {
      * @return
      */
     @GetMapping("/radomNum")
+    @ApiOperation("随机选取号码")
     public NumberInfo selectedRadom() {
 
         NumberInfo numberInfo = new NumberInfo();
@@ -141,7 +146,8 @@ public class SelectedNOController {
      * @return
      */
     @GetMapping("/{dnseg}/{numberType}")
-    public List<NumberInfo> query(@PathVariable String dnseg, @PathVariable String numberType, @PageableDefault(size = 10) Pageable page) {
+    @ApiOperation("特殊选号")
+    public List<NumberInfo> query(@ApiParam("号段")@PathVariable String dnseg, @ApiParam("号码类型")@PathVariable String numberType,@ApiParam("分页") @PageableDefault(size = 10) Pageable page) {
 
         List<NumberInfo> numberInfos = new ArrayList<NumberInfo>();
         Page pagelist = numberCategoryDao.findNumberAndCategoryInfo(dnseg, numberType, page);
@@ -170,7 +176,8 @@ public class SelectedNOController {
      * @return
      */
     @RequestMapping(value = "/showOrders/{userId}",method = RequestMethod.GET)
-    public  List<OrderDTO> showOrderInfoList(@PathVariable String userId,@PageableDefault(size = 10) Pageable page){
+    @ApiOperation("显示当前用户订单")
+    public  List<OrderDTO> showOrderInfoList(@ApiParam("用户id") @PathVariable String userId,@PageableDefault(size = 10) Pageable page){
 
         List<OrderDTO> orderDTOList =  orderService.getOrderInfoByUserId(userId, page);
 
